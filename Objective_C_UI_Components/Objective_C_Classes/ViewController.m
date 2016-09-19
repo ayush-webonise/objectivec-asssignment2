@@ -9,15 +9,15 @@
 #import "ViewController.h"
 
 @interface ViewController ()
-@property (strong, nonatomic) IBOutlet UITextField *textFieldProductName;
-@property (strong, nonatomic) IBOutlet UITextField *textFieldProductPrice;
-@property (strong, nonatomic) IBOutlet UITextField *textFieldProductCategory;
-@property NSMutableArray *arrayProducts;
+{
+ IBOutlet UITextField *textFieldProductName;
+ IBOutlet UITextField *textFieldProductPrice;
+ IBOutlet UITextField *textFieldProductCategory;
+ NSMutableArray *arrayProducts;
+}
 @end
 
 @implementation ViewController
-
-@synthesize textFieldProductName, textFieldProductPrice, textFieldProductCategory, arrayProducts;
 
 - (void)viewDidLoad
 {
@@ -25,36 +25,37 @@
     arrayProducts = [[NSMutableArray alloc]init];
 }
 
+-(BOOL) isValid:(NSString*)isValidString
+{
+  if([isValidString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].length==0)
+  {
+      return NO;
+  }
+    else
+        return YES;
+}
+
 /** This function checks for validations whether the user has added only whitespaces in the text field
   * \returns Returns YES if the names and prices are added correctly else returns NO
  */
-- (BOOL)checkValidation
+- (void)checkValidation
 {
-    NSString *pname = textFieldProductName.text;
-    NSString *pprice = textFieldProductPrice.text;
-    NSString *pcategory = textFieldProductCategory.text;
-    
-    if([pname stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].length == 0)
+    if([self isValid:textFieldProductName.text] == NO)
     {
         [textFieldProductName becomeFirstResponder];
-        return NO;
     }
-    
-    else if([pprice stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].length == 0)
+    else if([self isValid:textFieldProductPrice.text]== NO)
     {
         [textFieldProductPrice becomeFirstResponder];
-        return NO;
     }
-    
-    else if([pcategory stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].length == 0)
+    else if ([self isValid:textFieldProductCategory.text] == NO)
     {
         [textFieldProductCategory becomeFirstResponder];
-        return NO;
     }
-    
-    else
-    {
-        return YES;
+    else{
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Alert" message:@"Product Added" delegate:self
+                                                 cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [alertView show];
     }
 }
 
@@ -97,14 +98,7 @@
 
 - (IBAction)buttonAddPressed:(id)sender
 {
-    BOOL isValid = [self checkValidation];
-    if(isValid == YES)
-    {
-        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Alert" message:@"Product Added" delegate:self
-                                                 cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        [alertView show];
-    }
-    
+    [self checkValidation];
 }
 
 
