@@ -1,0 +1,14 @@
+//
+//  Products.h
+//  Objective_C_Classes
+//
+//  Created by ayush mahajan on 17/09/16.
+//  Copyright © 2016 ayush mahajan. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+@interface Products : NSObject
+@property(readwrite)NSString *productName;
+@property(readwrite)NSString *productPrice;
+@property(readwrite)NSString *productCategory;
+@end
